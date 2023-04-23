@@ -1,9 +1,15 @@
 pipeline {
-  agent { node { label 'jenkins_slave' } }
+  agent {
+    docker {
+      image 'node:14-alpine'
+      args '--user root' // Run container as root
+    }
+  }
   stages {
     stage('Install dependencies') {
       steps {
-        sh 'apk add --no-cache npm' // Install npm using Alpine package manager
+        sh 'apk update && apk add --no-cache --virtual .build-deps gcc g++ make python3' // Install build dependencies
+        sh 'apt-get update && apt-get install -y npm' // Install npm using apt-get
       }
     }
     stage('Checkout') {
