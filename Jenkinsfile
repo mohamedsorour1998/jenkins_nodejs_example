@@ -1,18 +1,11 @@
 pipeline {
   agent { node { label 'jenkins_slave' } }
   stages {
-    
-    stages {
-        stage('Install dependencies') {
-            steps {
-                sh 'apk add --no-cache npm' // Install npm using Alpine package manager
-                sh 'npm install' // Install project dependencies using npm
-            }
-        }
-    
-    }  
-    
-    
+    stage('Install dependencies') {
+      steps {
+        sh 'apk add --no-cache npm' // Install npm using Alpine package manager
+      }
+    }
     stage('Checkout') {
       steps {
         checkout scm
